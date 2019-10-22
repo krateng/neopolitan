@@ -27,7 +27,7 @@ function setCookie(key,val,session=true) {
 	else {
 		expirestr = ""
 	}
-	document.cookie = encodeURIComponent(key) + "=" + encodeURIComponent(val) + ";" + expirestr;
+	document.cookie = encodeURIComponent(key) + '="' + encodeURIComponent(val) + '";' + expirestr;
 }
 
 function getCookie(key) {
@@ -39,6 +39,8 @@ function getCookie(key) {
 
 function saveCookies() {
 	for (var c in cookies) {
-		document.cookie = encodeURIComponent(c) + "=" + encodeURIComponent(cookies[c]);
+		document.cookie = encodeURIComponent(c) + '="' + encodeURIComponent(cookies[c]) * '"';
 	}
 }
+
+export getCookie, setCookie, getCookies, saveCookies

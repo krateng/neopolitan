@@ -1,7 +1,6 @@
 // functions that are automatically assined based on html attributes
 
-var SMOOTH_UPDATE = true;
-var update_delay = SMOOTH_UPDATE ? 40 : 500;
+
 
 
 
@@ -28,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 
+	const SMOOTH_UPDATE = true;
+	const update_delay = SMOOTH_UPDATE ? 40 : 500;
+
 	function supervisor() {
 		for (let entry of functions) {
 			var [element, func] = entry
@@ -35,7 +37,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		setTimeout(supervisor,update_delay);
 	}
-	supervisor();
+
+	if (functions.length > 0) {
+		supervisor();
+	}
+
+
+	/* LINK INTERCEPT */
+
+	var body = document.getElementsByTagName("BODY")[0]
+	if (body.getAttribute("data-linkinterceptor") != undefined) {
+		var interceptor = eval(body.getAttribute("data-linkinterceptor"));
+
+		function interceptClickEvent(e) {
+		    var href;
+		    var target = e.target || e.srcElement;
+
+		    if (target.tagName === 'A' && !target.classList.contains("no-intercept")) {
+		        href = target.getAttribute('href');
+
+
+				e.preventDefault();
+				history.pushState({},"",href);
+				interceptor();
+		    }
+		}
+
+		document.addEventListener('click', interceptClickEvent);
+	}
+
 
 }, false);
 
