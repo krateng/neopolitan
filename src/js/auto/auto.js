@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('keyup', function(evt) {
 
+	if (evt.srcElement.tagName == "INPUT") { return; }
+
 	var elements = document.querySelectorAll('[data-hotkey]');
 	for (let e of elements) {
 		if (e.getAttribute("data-hotkey") == evt.code) {

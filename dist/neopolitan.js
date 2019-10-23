@@ -3,10 +3,10 @@ cookiesloaded=true;}
 document.addEventListener("load",getCookies);function setCookie(key,val,session=true){if(!cookiesloaded){getCookies();}
 cookies[key]=val;if(!session){var d=new Date();d.setTime(d.getTime()+(500*24*60*60*1000));expirestr="expires="+d.toUTCString();}
 else{expirestr=""}
-document.cookie=encodeURIComponent(key)+'="'+encodeURIComponent(val)+'";'+expirestr;}
+document.cookie=encodeURIComponent(key)+'='+encodeURIComponent(val)+';'+expirestr;}
 function getCookie(key){if(!cookiesloaded){getCookies();}
 return cookies[key];}
-function saveCookies(){for(var c in cookies){document.cookie=encodeURIComponent(c)+'="'+encodeURIComponent(cookies[c])*'"';}}
+function saveCookies(){for(var c in cookies){document.cookie=encodeURIComponent(c)+'='+encodeURIComponent(cookies[c])*'';}}
 function xhttpreq(url,data={},method="GET",callback=function(){},json=true){xhttp=new XMLHttpRequest();function curry(){if(this.readyState==4){callback(this);}}
 xhttp.onreadystatechange=curry;xhttp.open(method,url,true);body=""
 if(method=="GET"){url+="?";for(var key in data){url+=encodeURIComponent(key)+"="+encodeURIComponent(data[key])+"&";}}
@@ -24,4 +24,5 @@ setTimeout(supervisor,update_delay);}
 if(functions.length>0){supervisor();}
 var body=document.getElementsByTagName("BODY")[0]
 if(body.getAttribute("data-linkinterceptor")!=undefined){var interceptor=eval(body.getAttribute("data-linkinterceptor"));function interceptClickEvent(e){var href;var target=e.target||e.srcElement;if(target.tagName==='A'&&!target.classList.contains("no-intercept")){href=target.getAttribute('href');e.preventDefault();history.pushState({},"",href);interceptor();}}
-document.addEventListener('click',interceptClickEvent);}},false);document.addEventListener('keyup',function(evt){var elements=document.querySelectorAll('[data-hotkey]');for(let e of elements){if(e.getAttribute("data-hotkey")==evt.code){evt.preventDefault();e.onclick();break;}}},false);
+document.addEventListener('click',interceptClickEvent);}},false);document.addEventListener('keyup',function(evt){if(evt.srcElement.tagName=="INPUT"){return;}
+var elements=document.querySelectorAll('[data-hotkey]');for(let e of elements){if(e.getAttribute("data-hotkey")==evt.code){evt.preventDefault();e.onclick();break;}}},false);
