@@ -21,6 +21,7 @@ function xhttpreq(url,data={},method="GET",callback=function(){},json=true) {
 		if (json) {
 			body = JSON.stringify(data);
 			xhttp.setRequestHeader("Content-Type","application/json");
+			xhttp.responseType = "json";
 		}
 		else {
 			for (var key in data) {
