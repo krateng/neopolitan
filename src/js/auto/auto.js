@@ -9,11 +9,29 @@ document.addEventListener('DOMContentLoaded', function() {
 	/* SEEKABLE */
 	var elements = document.getElementsByClassName("seekable");
 	for (var i=0;i<elements.length;i++) {
-		callback = elements[i].getAttribute("data-seekcallback");
+
 		elements[i].addEventListener("click",function(evt) {
-			elmnt = evt.currentTarget;
+			var elmnt = evt.currentTarget;
 			var percentage = evt.offsetX / elmnt.offsetWidth;
+			percentage = Math.max(0,Math.min(100,percentage));
 			elmnt.firstElementChild.style.width = (percentage * 100) + "%";
+			var callback = elmnt.getAttribute("data-seekcallback");
+			window[callback](percentage);
+		})
+	}
+
+	var elements = document.getElementsByClassName("scrollseekable");
+	for (var i=0;i<elements.length;i++) {
+
+		elements[i].addEventListener("wheel",function(evt) {
+			var elmnt = evt.currentTarget;
+			//elmnt = this;
+			var currentPercentage = elmnt.firstElementChild.offsetWidth / elmnt.offsetWidth;
+			var sensitivity = elmnt.getAttribute("data-scrollsensitivity");
+			var percentage = currentPercentage - evt.deltaY*sensitivity/1000;
+			percentage = Math.max(0,Math.min(1,percentage));
+			elmnt.firstElementChild.style.width = (percentage * 100) + "%";
+			var callback = elmnt.getAttribute("data-seekcallback");
 			window[callback](percentage);
 		})
 	}
